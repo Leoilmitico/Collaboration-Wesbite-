@@ -1,0 +1,32 @@
+<?php
+require('Templete/navbar.phtml')?>
+<div class="form-container">
+    <form action="Register.php" method="post" class="registration-form">
+        <h2 class="register-title">Register</h2>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name"  onkeyup="removeSpecialChars(this)" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email"  required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div class="form-group">
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" name="confirm-password" required>
+        </div>
+        <?php if (!empty($msg)): ?>
+            <div><?php echo $msg; ?></div>
+        <?php endif; ?>
+        <button type="submit" name="submit" value="Register" class="register">Register</button>
+    </form>
+
+</div>
+
+
+<?php
+require('Templete/footer.phtml')?>

@@ -1,0 +1,174 @@
+
+<?php
+require('Templete/navbar.phtml')?>
+<div class="container">
+    <div class="main-body">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <hr class="my-4">
+                        <div class="card mb-4 mb-lg-0">
+                            <div class="container mt-5 font-size-5px" >
+                                <h2>Post Requests</h2>
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $dataSet = new UserDataSet1();
+                                    $user_id = $_SESSION['login'];
+                                    $requests = $dataSet->fetchUserPostRequests($user_id);
+                                    foreach ($requests as $request) {
+                                        echo "<tr>";
+                                        echo "<td>{$request['sender_name']}</td>";
+                                        echo "<td>{$request['post_title']}</td>";
+                                        echo "<td>";
+                                        if ($request['status'] == 'pending') {
+                                            echo "<form action='update_request.php' method='POST' class='d-inline'>";
+                                            echo "<input type='hidden' name='request_id' value='{$request['id']}'>";
+                                            echo "<input type='hidden' name='sender_id' value='{$request['sender_id']}'>";
+                                            echo "<input type='hidden' name='post_id' value='{$request['post_id']}'>";
+                                            echo "<button type='submit' name='action' value='accept' class='btn btn-success'>Accept</button>";
+                                            echo "</form>";
+                                            echo "<form action='update_request.php' method='POST' class='d-inline'>";
+                                            echo "<input type='hidden' name='request_id' value='{$request['id']}'>";
+                                            echo "<button type='submit' name='action' value='reject' class='btn btn-danger'>Reject</button>";
+                                            echo "</form>";
+                                        }
+                                        echo "</td>";
+                                        echo "</tr>";
+                                    }
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <?php if ($userProfile['photo']) { ?>
+                                <div class="d-flex justify-content-center align-items-center rounded-circle p-1 bg-primary profile-picture">
+                                    <img src="<?= htmlspecialchars($userProfile['photo']) ?>" alt="Profile Picture">
+                                </div>
+                            <?php } else { ?>
+                                <div class="d-flex justify-content-center align-items-center rounded-circle p-1 bg-primary profile-picture">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Profile Picture">
+                                </div>
+                            <?php } ?>
+                            <div class="mt-3">
+                                <h4><?= htmlspecialchars($userProfile['name']) ?></h4>
+                                <p class="text-secondary mb-1 text-black"><?= htmlspecialchars($userProfile['email']) ?></p>
+
+                                <form method="POST" action="UserProfileController.php">
+                                    <input type="hidden" name="user_id" value="<?php echo $userProfile['id'] ?>">
+                                    <button type="submit" name="deleteAccount" class="btn btn-danger">Delete Account</button>
+                                </form>
+
+                            </div>
+                        </div>
+                        <form method="post" enctype="multipart/form-data" class="profile-container">
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Name</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <label>
+                                        <input class="form-control" type="text" name="name" value="<?php echo $userProfile['name']; ?>">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Email</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input class="form-control" type="email" name="email" value="<?php echo $userProfile['email']; ?>">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Password</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input class="form-control" type="password" name="password" value="<?php echo $userProfile['password']; ?>">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Profile Picture</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <div class="profile-form-group">
+                                        <img src="" alt="Profile Picture">
+                                        <input type="file" name="photo">
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="row">
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-9 text-secondary">
+                                <input type="submit" name="updateProfile" class="Update" value="Update">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="d-flex align-items-center mb-3">Posts</h5>
+                                <?php foreach ($userPosts as $post) { ?>
+                                    <div class="post">
+                                        <div class="post-title">
+                                            <?= htmlspecialchars($post['title']) ?>
+                                            <button class="upvote-btn" data-post-id="<?= $post['id'] ?>">
+                                                <i class="fas fa-arrow-up"></i>
+                                                <span class="upvotes-count"><?= $post['upvotes'] ?></span>
+                                            </button>
+                                        </div>
+                                        <div class="post-category">
+                                            Category: <?= htmlspecialchars($post['category']) ?>
+                                        </div>
+                                        <div class="post-content" id="post-content-<?= $post['id'] ?>">
+                                            <?= nl2br(htmlspecialchars($post['content'])) ?>
+                                        </div>
+                                        <div class="post-date">
+                                            <?= htmlspecialchars($post['created_at']) ?>
+                                        </div>
+                                        <div class="post-actions">
+                                        <button class="read-more-btn" data-post-id="<?= $post['id'] ?>">Read More</button>
+                                        <form method="post">
+                                            <input type="hidden" name="postId" value="<?= $post['id'] ?>">
+                                            <button type="submit" name="deletePost" class="delete-button">Delete</button>
+                                        </form>
+                                    </div>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+require('Templete/footer.phtml')?>

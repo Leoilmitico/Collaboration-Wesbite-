@@ -1,0 +1,65 @@
+<?php
+require('Templete/navbar.phtml')?>
+<!-- Your HTML code here -->
+<div class="container">
+    <h1 class="my-heading"> Post List</h1>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span id="close" class="close">&times;</span>
+            <h1>Error</h1>
+            <p id="modal-message"></p>
+        </div>
+    </div>
+
+    <?php foreach ($posts as $key => $post): ?>
+        <div class="post" style="--delay: <?= $key ?>;">
+            <div class="post-title">
+                <?= htmlspecialchars($post['title']) ?>
+                <button class="upvote-btn" data-post-id="<?= $post['id'] ?>">
+                    <i class="fas fa-arrow-up"></i>
+                    <span class="upvotes-count"><?= $post['upvotes'] ?></span>
+                </button>
+            </div>
+
+
+            <div class="post-author">
+                <?php if (!empty($post['photo'])) { ?>
+                    <a href="OtherusersController.php?user_id=<?= $post['user_id'] ?>">
+                        <img src="<?= htmlspecialchars($post['photo']) ?>" alt="Profile Picture" class="rounded-circle" width="40">
+                    </a>
+                <?php } else { ?>
+                    <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Profile Picture" class="rounded-circle" width="40">
+                <?php } ?>
+                <a href="OtherusersController.php?user_id=<?= $post['user_id'] ?>"><?= htmlspecialchars($post['name']) ?></a>
+                <div id="profile-preview"></div>
+            </div>
+
+
+
+            <div class="post-category">
+                Category: <?= htmlspecialchars($post['category_name']) ?>
+            </div>
+
+            <div class="post-content" id="post-content-<?= $key ?>">
+                <?= nl2br(htmlspecialchars($post['content'])) ?>
+            </div>
+
+            <div class="post-date">
+                <?= htmlspecialchars($post['created_at']) ?>
+            </div>
+
+            <div class="button-group">
+                <button class="read-more-btn" data-post-id="<?= $key ?>">Read More</button>
+                <form action="Send_request.php" method="get">
+                    <button type="submit" class="join">Join</button>
+                    <input type="hidden" name="post_id" value="<?php echo $post['id']; ?>">
+                    <input type="hidden" name="receiver_id" value="<?php echo $post['user_id']; ?>">
+                </form>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
+<?php
+require('Templete/footer.phtml')?>
+

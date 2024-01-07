@@ -1,0 +1,32 @@
+<?php
+require('Templete/navbar.phtml') ?>
+<?php
+if (isset($_SESSION['login']))
+?>
+    <div class="form-container">
+        <form action="loginController.php" method="post" class="login-form">
+            <h2>Login</h2>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group remember-me">
+    <span class="remember-me-label">
+        <input type="checkbox" id="remember-me" name="remember-me">
+        <label for="remember-me">Remember me</label>
+    </span>
+            </div>
+            <input type="hidden" name="login_submit" value="1">
+            <button type="submit" name="submit" value="Register" class="Login" >Login</button>
+            <p class="no-account">Don't have an account? <a href="Register.php">Register here</a></p>
+        </form>
+    </div>
+
+
+<?php
+require('Templete/footer.phtml')?>
+

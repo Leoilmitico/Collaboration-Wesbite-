@@ -1,0 +1,49 @@
+
+<!-- footer section starts  -->
+<section class="footer">
+
+    <div class="box-container">
+
+        <div class="box">
+            <h3>Quick links</h3>
+            <a href="home.php">Home</a>
+            <a href="index.php">About</a>
+            <a href="Register.php">Register</a>
+            <a href="Login.php">Login</a>
+        </div>
+        <div class="box">
+            <h3>Extra links</h3>
+            <?php if(isset($_SESSION['login'])) : ?>
+                <a href="UserProfileController.php">My account</a>
+                <a href="UserProfileController.php">My posts</a>
+                <a href="Post.php">Create a post</a>
+            <?php endif; ?>
+            <a href="home.php">View Posts</a>
+        </div>
+
+        <div class="box">
+            <h3>contact info</h3>
+            <a href="#"> <i class="fas fa-phone"></i> +44 141 496 0812</a>
+            <a href="#"> <i class="fas fa-envelope"></i> managere90@gmail.com </a>
+            <a href="#"> <i class="fas fa-map"></i> Salford University </a>
+        </div>
+
+        <div class="box">
+            <h3>follow us</h3>
+            <a href="https://www.facebook.com/FreeWebsiteCode/"> <i class="fab fa-facebook-f"></i> facebook </a>
+            <a href="https://twitter.com/freewebsitecode"> <i class="fab fa-twitter"></i> twitter </a>
+            <a href="https://www.youtube.com/FreeWebsiteCode/videos"> <i class="fab fa-youtube"></i> youtube </a>
+            <a href="https://www.linkedin.com/in/freewebsitecode/"> <i class="fab fa-linkedin"></i> linkedin </a>
+            <a href="https://freewebsitecode.com/"> <i class="fas fa-globe"></i> website </a>
+        </div>
+
+    </div>
+
+</section>
+<!-- footer section ends -->
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+
+<!-- custom js file link  -->
+<script src="js/script.js"></script>
+
+</html>

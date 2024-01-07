@@ -1,0 +1,70 @@
+<!-- This page is for what you  can see when go on other user profile-->
+<?php
+require('Templete/navbar.phtml')?>
+<div class="container">
+    <div class="main-body">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <?php if ($userProfile['photo']) { ?>
+                                <img src="<?= htmlspecialchars($userProfile['photo']) ?>" alt="Profile Picture" class="d-flex justify-content-center align-items-center rounded-circle p-1 bg-primary profile-picture">
+                            <?php } else { ?>
+                                <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="Profile Picture" class="rounded-circle p-1 bg-primary" width="110">
+                            <?php } ?>
+                            <div class="mt-3">
+                                <h4><?= htmlspecialchars($userProfile['name']) ?></h4>
+                                <p class="text-secondary mb-1 text-black"><?= htmlspecialchars($userProfile['email']) ?></p>
+                                <button class="btn btn-outline-primary">Message</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="mb-3">User's Posts</h5>
+                        <?php foreach ($userPosts as $key => $post): ?>
+                            <div class="post">
+                                <div class="post-title">
+                                    <?= htmlspecialchars($post['title']) ?>
+                                </div>
+                                <div class="post-author">
+                                    Posted by: <?= isset($userProfile['name']) ? htmlspecialchars($userProfile['name']) : '' ?>
+
+                                </div>
+                                <div class="post-category">
+                                    Category: <?= isset($post['category_name']) ? htmlspecialchars($post['category_name']) : '' ?>
+                                </div>
+                                <div class="post-content" id="post-content-<?= $key ?>">
+                                    <?= nl2br(htmlspecialchars($post['content'])) ?>
+                                </div>
+                                <div class="post-date">
+                                    <?= htmlspecialchars($post['created_at']) ?>
+                                </div>
+                                <button class="upvote-btn" data-post-id="<?= $post['id'] ?>">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span class="upvotes-count"><?= $post['upvotes'] ?></span>
+                                </button>
+                                <div class="button-group">
+                                    <button class="read-more-btn" data-post-id="<?= $key ?>">Read More</button>
+                                    <form action="Send_request.php" method="get">
+                                        <input type="hidden" name="post_id" value="<?php echo $post['id']; ?>">
+                                        <button type="submit" class="join">Join</button>
+                                        <input type="hidden" name="receiver_id" value="<?php echo $post['user_id']; ?>">
+                                    </form>
+                            </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+require('Templete/footer.phtml')?>
